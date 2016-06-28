@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Friends</title>
+</head>
+<body>
+	{% with messages = get_flashed_messages() %}
+		{% if messages %}
+			{% for message in messages %}
+				<p>{{message}}</p>
+			{% endfor %}
+		{% endif %}
+	{% endwith %}
+	<p><a href="/">Logout</a></p>
+	<h2>Welcome, {{user['alias']}}</h2>
+	<h4>testing {{user}}</h4>
+	<h6>testing {{all_users}}</h6>
+	<h4>testing users by id {{users_by_id}}</h4>
+	<h4>{{friendship_id}}</h4>
+	<h4>Here is a list of your friends:</h4>
+	<fieldset style="width:30%" display=inline-block>
+		<table style="width:100%">
+			  <tr>
+			    <th>Alias</th>
+			    <th>Actions</th> 
+			  </tr>
+			{% if users_by_id %}
+				{% for user in users_by_id %}
+				  <tr>
+				    <td>{{user['friend_alias']}}</td>
+				    <td><a href="/users/{{user['friend_id']}}">View Profile</a> | <a href="/friends">Remove Friend</a></td> 
+				  </tr>
+				{% endfor %}
+			{% endif %}
+		</table>
+	</fieldset>
+
+	<h4>Other Users not in your Friends list:</h4>
+		<fieldset style="width:30%" display=inline-block>
+		<table style="width:100%">
+			  <tr>
+			    <th>Alias</th>
+			    <th>Actions</th> 
+			  </tr>
+			{% if all_users %}
+				{% for user in all_users %}
+				  <tr>
+				    <td><a href="/users/{{user['id']}}">{{user['alias']}}</a></td>
+				    <td>
+				    	<form action="/add" method="post">
+				    		<input type="submit" name="add" value="Add Friend!">
+				    	</form>
+				    </td>
+				  </tr>
+				{% endfor %}
+			{% endif %}
+		</table>
+	</fieldset>
+
+</body>
+</html>
